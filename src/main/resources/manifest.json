@@ -1,11 +1,8 @@
 {
-  "Group": "com.example",
-  "Name": "SampleProject",
-    "Version": "1.0.0",
-    "Description": "A sample project demonstrating manifest structure.",
-    "Authors": [
-        "Jane Doe",
-        "John Smith"
-    ],
-  "Main": "de.another.rpg"
+  "Group": "de.another.rpg",
+  "Name": "AnotherRPG",
+    "Version": "0.0.1",
+    "Description": "A RPG mod for Hytale.",
+  "Authors": [ { "Name": "Another" } ],
+  "Main": "de.another.rpg.AnotherRPG"
 }
