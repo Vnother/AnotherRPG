@@ -8,10 +8,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.hypixel.hytale.server.core.Message;
+import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.util.EventTitleUtil;
 
+import de.another.rpg.AnotherRPG;
+import de.another.rpg.api.skill.Skill;
 import de.another.rpg.config.AnotherRPGConfig;
 import de.another.rpg.api.component.SkillComponent;
 import de.another.rpg.api.event.SkillEventListener;
@@ -44,6 +47,27 @@ public class SkillManager {
 
         // Initialize default configuration
         loadConfig();
+    }
+
+    public Skill determineSkillFromItemName(String name) {
+        // Example Weapon_Daggers_Iron
+        var name1 = name.split("_")[1].toLowerCase();
+
+        if (name1.contains("shortbow")) {
+            return skillRegistry.getSkill("archery").orElse(null);
+        } else if (name1.contains("sword")){
+            return skillRegistry.getSkill("sword").orElse(null);
+        } else if (name1.contains("dagger")) {
+            return skillRegistry.getSkill("dagger").orElse(null);
+        } else if (name1.contains("axe") || name1.contains("battleaxe")) {
+            return skillRegistry.getSkill("axe").orElse(null);
+        } else if (name1.contains("mace") || name1.contains("club")) {
+            return skillRegistry.getSkill("warhammer").orElse(null);
+        } else if (name1.contains("staff") || name1.contains("wand") || name1.contains("spellbook")) {
+            return skillRegistry.getSkill("magic").orElse(null);
+        }
+
+        return null;
     }
 
     private void loadConfig() {
@@ -90,6 +114,19 @@ public class SkillManager {
         addXp(playerId, reward.skillId(), reward.amount());
     }
 
+    public void addXpCombat(UUID playerId, ItemStack itemStack, String victimName) {
+        // Check if the item held belongs to a skill
+        Skill skill = determineSkillFromItemName(itemStack.getItemId());
+        if (skill == null) {
+            return;
+        }
+
+        // Simple XP calculation: based on victim's max health
+        double baseXp = 1 * 10.0; // Example:
+        addXp(playerId, skill.getId(), baseXp);
+
+    }
+
     private record XpReward(String skillId, double amount) {
     }
 
@@ -126,6 +163,8 @@ public class SkillManager {
         if (newLevel > oldLevel) {
             handleLevelUp(playerId, skillId, newLevel);
         }
+        AnotherRPG.getInstance().getPlayerStorage().savePlayer(playerId, component);
+
     }
 
     public int getLevel(UUID playerId, String skillId) {
@@ -134,7 +173,6 @@ public class SkillManager {
     }
 
     public double getXp(UUID playerId, String skillId) {
-        // Safe null handling
         SkillComponent component = playerSkillData.get(playerId);
         if (component == null) return 0.0;
         return component.getXp(skillId);

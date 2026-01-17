@@ -30,14 +30,14 @@ public class XPCommand extends AbstractPlayerCommand {
             SkillManager skillManager = AnotherRPG.getInstance().getSkillManager();
             var registry = AnotherRPG.getInstance().getSkillRegistry();
 
-            player.sendMessage(Message.raw("§6--- Skills & XP ---"));
+            player.sendMessage(Message.raw("--- Skills & XP ---"));
             for (Skill skill : registry.getAllSkills()) {
                 int level = skillManager.getLevel(playerId, skill.getId());
                 double xp = skillManager.getXp(playerId, skill.getId());
 
-                player.sendMessage(Message.raw(String.format("§e%s: §fLevel %d (%.1f XP)", skill.getDisplayName(), level, xp)));
+                player.sendMessage(Message.raw(String.format("%s: Level %d (%.1f XP)", skill.getDisplayName(), level, xp)));
             }
-            player.sendMessage(Message.raw("§6-------------------"));
+            player.sendMessage(Message.raw("-------------------"));
         }
 
     }

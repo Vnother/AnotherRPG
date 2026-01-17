@@ -10,6 +10,7 @@ import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 
 import de.another.rpg.api.component.SkillComponent;
 import de.another.rpg.api.registry.SkillRegistry;
+import de.another.rpg.api.skill.Skill;
 import de.another.rpg.config.AnotherRPGConfig;
 import de.another.rpg.core.SkillManager;
 import de.another.rpg.core.commands.XPCommand;
@@ -20,7 +21,7 @@ import de.another.rpg.data.PlayerStorage;
 import de.another.rpg.hytale.BlockBreakEventSystem;
 import de.another.rpg.hytale.CombatEventSystem;
 import de.another.rpg.hytale.PlayerJoinSystem;
-import de.another.rpg.modules.combat.CombatSkill;
+import de.another.rpg.modules.combat.*;
 import de.another.rpg.modules.farming.FarmingSkill;
 import de.another.rpg.modules.mining.MiningSkill;
 import de.another.rpg.modules.woodcutting.WoodcuttingSkill;
@@ -93,8 +94,14 @@ public class AnotherRPG extends JavaPlugin {
         // 3. Register Modules
         skillRegistry.register(new MiningSkill());
         skillRegistry.register(new WoodcuttingSkill());
-        skillRegistry.register(new CombatSkill());
         skillRegistry.register(new FarmingSkill());
+        skillRegistry.register(new SwordSkill());
+        skillRegistry.register(new WarhammerSkill());
+        skillRegistry.register(new AxeSkill());
+        skillRegistry.register(new SpearSkill());
+        skillRegistry.register(new DaggerSkill());
+        skillRegistry.register(new ArcherySkill());
+        skillRegistry.register(new MagicSkill());
 
         System.out.println("Initialized SkillManager with " + skillRegistry.getAllSkills().size() + " skills.");
     }
@@ -106,6 +113,8 @@ public class AnotherRPG extends JavaPlugin {
     public SkillRegistry getSkillRegistry() {
         return skillRegistry;
     }
+
+
 
     public PlayerStorage getPlayerStorage() {
         return playerStorage;

@@ -51,6 +51,17 @@ public class BlockBreakEventSystem extends EntityEventSystem<EntityStore, BreakB
 
     }
 
+    public void AlternateTreeFellingMethod(BreakBlockEvent breakBlockEvent) {
+        // Get all connected logs and break them
+        if (breakBlockEvent.getItemInHand().getItemId().contains("Tool_Hatchet")) {
+
+
+
+        } else {
+            return;
+        }
+    }
+
     @NullableDecl
     @Override
     public Query<EntityStore> getQuery() {
