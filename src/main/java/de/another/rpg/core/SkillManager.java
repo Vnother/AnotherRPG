@@ -1,27 +1,28 @@
 package de.another.rpg.core;
 
+import com.hypixel.hytale.codec.schema.metadata.ui.UIEditor;
+import com.hypixel.hytale.protocol.ItemWithAllMetadata;
+import com.hypixel.hytale.server.core.Message;
+import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
+import com.hypixel.hytale.server.core.universe.Universe;
+import com.hypixel.hytale.server.core.util.EventTitleUtil;
+import com.hypixel.hytale.server.core.util.NotificationUtil;
+import de.another.rpg.AnotherRPG;
+import de.another.rpg.api.component.SkillComponent;
+import de.another.rpg.api.event.SkillEventListener;
+import de.another.rpg.api.event.SkillLevelUpEvent;
+import de.another.rpg.api.leveling.LevelingStrategy;
+import de.another.rpg.api.registry.SkillRegistry;
+import de.another.rpg.config.AnotherRPGConfig;
+import de.another.rpg.util.Tools;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import com.hypixel.hytale.server.core.Message;
-import com.hypixel.hytale.server.core.inventory.ItemStack;
-import com.hypixel.hytale.server.core.universe.PlayerRef;
-import com.hypixel.hytale.server.core.universe.Universe;
-import com.hypixel.hytale.server.core.util.EventTitleUtil;
-
-import de.another.rpg.AnotherRPG;
-import de.another.rpg.api.skill.Skill;
-import de.another.rpg.config.AnotherRPGConfig;
-import de.another.rpg.api.component.SkillComponent;
-import de.another.rpg.api.event.SkillEventListener;
-import de.another.rpg.api.event.SkillLevelUpEvent;
-import de.another.rpg.api.leveling.LevelingStrategy;
-import de.another.rpg.api.registry.SkillRegistry;
-import de.another.rpg.util.Tools;
 
 /**
  * Core component handling player skills and XP.
@@ -49,26 +50,6 @@ public class SkillManager {
         loadConfig();
     }
 
-    public Skill determineSkillFromItemName(String name) {
-        // Example Weapon_Daggers_Iron
-        var name1 = name.split("_")[1].toLowerCase();
-
-        if (name1.contains("shortbow")) {
-            return skillRegistry.getSkill("archery").orElse(null);
-        } else if (name1.contains("sword")){
-            return skillRegistry.getSkill("sword").orElse(null);
-        } else if (name1.contains("dagger")) {
-            return skillRegistry.getSkill("dagger").orElse(null);
-        } else if (name1.contains("axe") || name1.contains("battleaxe")) {
-            return skillRegistry.getSkill("axe").orElse(null);
-        } else if (name1.contains("mace") || name1.contains("club")) {
-            return skillRegistry.getSkill("warhammer").orElse(null);
-        } else if (name1.contains("staff") || name1.contains("wand") || name1.contains("spellbook")) {
-            return skillRegistry.getSkill("magic").orElse(null);
-        }
-
-        return null;
-    }
 
     private void loadConfig() {
         AnotherRPGConfig.Config config = AnotherRPGConfig.get();
@@ -78,7 +59,7 @@ public class SkillManager {
             });
             System.out.println("Loaded " + blockRewards.size() + " block rewards from config.");
         } else {
-             System.out.println("Config not loaded or null!");
+            System.out.println("Config not loaded or null!");
         }
     }
 
@@ -114,16 +95,13 @@ public class SkillManager {
         addXp(playerId, reward.skillId(), reward.amount());
     }
 
-    public void addXpCombat(UUID playerId, ItemStack itemStack, String victimName) {
-        // Check if the item held belongs to a skill
-        Skill skill = determineSkillFromItemName(itemStack.getItemId());
-        if (skill == null) {
-            return;
-        }
+    public void addXpCombat(UUID playerId, ItemStack itemStack, double maxHealth) {
+
 
         // Simple XP calculation: based on victim's max health
-        double baseXp = 1 * 10.0; // Example:
-        addXp(playerId, skill.getId(), baseXp);
+        double baseXp = 1.0; // Example:
+        baseXp += maxHealth * 0.25;
+        addXp(playerId, "combat", baseXp);
 
     }
 
@@ -154,7 +132,12 @@ public class SkillManager {
         double currentXp = component.getXp(skillId);
         double newXp = currentXp + amount;
         component.setXp(skillId, newXp);
-        System.out.println("Added " + amount + " XP to skill " + skillId + " for player " + playerId + ". New XP: " + newXp);
+
+        sendNotification(
+                playerId,
+                "You gained " + amount + " XP in " + Tools.capitalizeFirstChar(skillId) + ".",
+                "Total XP: " + newXp,
+                skillRegistry.getSkill(skillId).get().displayItemName());
 
         // Check for level up
         int oldLevel = levelingStrategy.getLevelFromXp((long) currentXp);
@@ -164,6 +147,21 @@ public class SkillManager {
             handleLevelUp(playerId, skillId, newLevel);
         }
         AnotherRPG.getInstance().getPlayerStorage().savePlayer(playerId, component);
+
+    }
+
+    public void sendNotification(UUID playerId, String text1, String text2, String displayItemId) {
+
+
+        var playerRef = Universe.get().getPlayer(playerId);
+        var packetHandler = playerRef.getPacketHandler();
+        var primaryMessage = Message.raw(text1).color("#00FF00");
+        var secondaryMessage = Message.raw(text2).color("#228B22");
+        var icon = new ItemStack(displayItemId, 1).toPacket();
+        NotificationUtil.sendNotification(
+                packetHandler,
+                primaryMessage
+                );
 
     }
 
@@ -212,5 +210,5 @@ public class SkillManager {
         }
     }
 
-    
+
 }

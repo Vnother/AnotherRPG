@@ -15,5 +15,10 @@ public interface Skill {
      * Display name for the user interface.
      */
     String getDisplayName();
+
+    /**
+     * Display name for items related to this skill.
+     */
+    String displayItemName();
 }
 

@@ -92,7 +92,8 @@ public class CombatEventSystem extends DamageEventSystem {
                 // Logic: Award XP based on weapon
                 System.out.println("Player " + attackerPlayer.getDisplayName() + " attacked using item: " + itemId);
                 System.out.println("Result: Hit a Mob! type: " + victim.getNPCTypeId());
-                skillManager.addXpCombat(attackerUUID.getUuid(), itemInHand, victim.getNPCTypeId());
+                skillManager.addXpCombat(attackerUUID.getUuid(), itemInHand, entityStatValue.getMax());
+
 
 
 
