@@ -12,6 +12,8 @@ import com.hypixel.hytale.server.core.event.events.ecs.BreakBlockEvent;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import de.another.rpg.AnotherRPG;
+import de.another.rpg.api.component.SkillComponent;
+import de.another.rpg.api.logic.BlockBreakEffect;
 import de.another.rpg.core.SkillManager;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
@@ -42,6 +44,16 @@ public class BlockBreakEventSystem extends EntityEventSystem<EntityStore, BreakB
         }
 
         @SuppressWarnings("removal") UUID playerId = player.getUuid();
+
+        // 1. Get Skill Component (Stats)
+        SkillComponent skillData = store.getComponent(entityStoreRef, SkillComponent.getComponentType());
+
+        // 2. Delegate to Registered Effects (Logic in separate classes now)
+        if (skillData != null) {
+             for (BlockBreakEffect effect : AnotherRPG.getInstance().getEffectManager().getBlockBreakEffects()) {
+                 effect.onBreak(breakBlockEvent, player, skillData, skillManager);
+             }
+        }
 
         skillManager.awardXpForBlock(playerId, blockId);
 

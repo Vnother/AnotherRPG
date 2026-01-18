@@ -33,6 +33,9 @@ public class PlayerJoinSystem extends RefSystem<EntityStore> {
         // Load data from storage
         SkillComponent skillData = AnotherRPG.getInstance().getPlayerStorage().loadPlayer(uuid);
 
+        // Recalculate stats based on unlocked nodes
+        AnotherRPG.getInstance().getSkillTreeManager().recalculateStats(skillData);
+
         // Update SkillManager (Core Logic)
         AnotherRPG.getInstance().getSkillManager().loadPlayerData(uuid, skillData);
 

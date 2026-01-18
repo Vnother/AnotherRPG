@@ -11,18 +11,22 @@ import de.another.rpg.api.component.SkillComponent;
 import de.another.rpg.api.registry.SkillRegistry;
 import de.another.rpg.config.AnotherRPGConfig;
 import de.another.rpg.core.SkillManager;
+import de.another.rpg.core.commands.SkillTreeCommand;
 import de.another.rpg.core.commands.XPCommand;
 import de.another.rpg.core.leveling.ExponentialLevelingStrategy;
+import de.another.rpg.core.logic.EffectManager;
 import de.another.rpg.core.registry.SkillRegistryImpl;
+import de.another.rpg.core.skilltree.NodeManager;
+import de.another.rpg.core.skilltree.SkillTreeManager;
 import de.another.rpg.data.JsonPlayerStorage;
 import de.another.rpg.data.PlayerStorage;
 import de.another.rpg.hytale.BlockBreakEventSystem;
 import de.another.rpg.hytale.CombatEventSystem;
 import de.another.rpg.hytale.PlayerJoinSystem;
 import de.another.rpg.modules.combat.*;
-import de.another.rpg.modules.professions.FarmingSkill;
-import de.another.rpg.modules.professions.MiningSkill;
-import de.another.rpg.modules.professions.WoodcuttingSkill;
+import de.another.rpg.modules.professions.LifestyleSkill;
+import de.another.rpg.modules.professions.mining.DoubleDropEffect;
+import de.another.rpg.modules.professions.mining.ShatterStrikeEffect;
 
 public class AnotherRPG extends JavaPlugin {
 
@@ -32,6 +36,9 @@ public class AnotherRPG extends JavaPlugin {
     // Core Systems
     private SkillManager skillManager;
     private SkillRegistry skillRegistry;
+    private NodeManager nodeManager;
+    private SkillTreeManager skillTreeManager;
+    private EffectManager effectManager;
 
     // Config
     // private Config<AnotherRPGConfig> configWrapper;
@@ -71,6 +78,7 @@ public class AnotherRPG extends JavaPlugin {
 
         // Register Commands
         this.getCommandRegistry().registerCommand(new XPCommand());
+        this.getCommandRegistry().registerCommand(new SkillTreeCommand());
 
         // Register Systems
         this.getEntityStoreRegistry().registerSystem(new BlockBreakEventSystem());
@@ -88,18 +96,42 @@ public class AnotherRPG extends JavaPlugin {
 
         // 2. Manager
         this.skillManager = new SkillManager(skillRegistry, levelingStrategy);
+        this.nodeManager = new NodeManager();
 
         // 3. Register Modules
-        skillRegistry.register(new MiningSkill());
-        skillRegistry.register(new WoodcuttingSkill());
-        skillRegistry.register(new FarmingSkill());
+        skillRegistry.register(new LifestyleSkill());
         skillRegistry.register(new CombatSkill());
 
+        // 4. Initialize Node Manager
+        File skillTreeFolder = new File("AnotherRPG/skilltrees");
+        this.nodeManager.loadNodesFromDirectory(skillTreeFolder);
+
+        // 5. Initialize SkillTreeManager
+        this.skillTreeManager = new SkillTreeManager(nodeManager);
+
+        // 6. Initialize Effect Manager
+        this.effectManager = new EffectManager();
+        this.effectManager.registerBlockBreakEffect(new DoubleDropEffect());
+        this.effectManager.registerBlockBreakEffect(new ShatterStrikeEffect());
+
         System.out.println("Initialized SkillManager with " + skillRegistry.getAllSkills().size() + " skills.");
+        System.out.println("Loaded skill nodes from " + skillTreeFolder.getAbsolutePath());
     }
 
     public SkillManager getSkillManager() {
         return skillManager;
+    }
+
+    public EffectManager getEffectManager() {
+        return effectManager;
+    }
+
+    public NodeManager getNodeManager() {
+        return nodeManager;
+    }
+
+    public SkillTreeManager getSkillTreeManager() {
+        return skillTreeManager;
     }
 
     public SkillRegistry getSkillRegistry() {
