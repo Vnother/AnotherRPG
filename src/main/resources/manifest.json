@@ -4,5 +4,6 @@
     "Version": "0.0.1",
     "Description": "A RPG mod for Hytale.",
   "Authors": [ { "Name": "Another" } ],
-  "Main": "de.another.rpg.AnotherRPG"
+  "Main": "de.another.rpg.AnotherRPG",
+  "IncludesAssetPack": true
 }
