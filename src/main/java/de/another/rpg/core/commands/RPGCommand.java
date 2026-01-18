@@ -8,13 +8,12 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import de.another.rpg.ui.SkillTreeUI;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
-public class SkillTreeCommand extends AbstractPlayerCommand {
+public class RPGCommand extends AbstractPlayerCommand {
 
-    public SkillTreeCommand() {
-        super("skilltree", "Open the Skill Tree", false);
+    public RPGCommand() {
+        super("rpg", "Open the Skill Tree", false);
     }
 
     @Override
@@ -22,8 +21,8 @@ public class SkillTreeCommand extends AbstractPlayerCommand {
         Player player = store.getComponent(ref, Player.getComponentType());
         if (player != null) {
             // Re-enable the UI
-            SkillTreeUI ui = new SkillTreeUI(playerRef);
-            player.getPageManager().openCustomPage(ref, store, ui);
+            //SkillTreeUI ui = new SkillTreeUI(playerRef);
+            //player.getPageManager().openCustomPage(ref, store, ui);
         }
     }
 }

@@ -11,7 +11,7 @@ import de.another.rpg.api.component.SkillComponent;
 import de.another.rpg.api.registry.SkillRegistry;
 import de.another.rpg.config.AnotherRPGConfig;
 import de.another.rpg.core.SkillManager;
-import de.another.rpg.core.commands.SkillTreeCommand;
+import de.another.rpg.core.commands.RPGCommand;
 import de.another.rpg.core.commands.XPCommand;
 import de.another.rpg.core.leveling.ExponentialLevelingStrategy;
 import de.another.rpg.core.logic.EffectManager;
@@ -78,7 +78,7 @@ public class AnotherRPG extends JavaPlugin {
 
         // Register Commands
         this.getCommandRegistry().registerCommand(new XPCommand());
-        this.getCommandRegistry().registerCommand(new SkillTreeCommand());
+        this.getCommandRegistry().registerCommand(new RPGCommand());
 
         // Register Systems
         this.getEntityStoreRegistry().registerSystem(new BlockBreakEventSystem());
