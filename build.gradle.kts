@@ -7,6 +7,9 @@ version = "0.0.1"
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://cursemaven.com")
+    }
 }
 
 dependencies {
@@ -14,6 +17,7 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    implementation("curse.maven:hyui-1431415:7479623")
 }
 
 tasks.test {
@@ -25,6 +29,7 @@ val deployMod by tasks.registering(Copy::class) {
     description = "Builds the jar and copies it to the run/mods directory."
     dependsOn("jar")
     from(tasks.jar)
+    from(configurations.runtimeClasspath)
     into(file("run/mods"))
 }
 

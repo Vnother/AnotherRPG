@@ -4,11 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import com.hypixel.hytale.component.AddReason;
+import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
 import de.another.rpg.api.component.SkillComponent;
 import de.another.rpg.api.skilltree.SkillNode;
 import de.another.rpg.api.skilltree.SkillTreeType;
+import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
 public class SkillTreeManager {
 
@@ -21,14 +26,18 @@ public class SkillTreeManager {
     /**
      * Attempts to unlock a node for a player entity.
      * Checks cost, connectivity, and permissions.
-     * @param playerEntity The player entity.
+     * @param ref Reference to the player entity.
+     * @param store The entity store.
      * @param nodeId The node to unlock.
      * @return true if successful, false otherwise.
      */
-    public boolean unlockNode(EntityStore playerEntity, String nodeId) {
-        SkillComponent component = null;
+    public boolean unlockNode(@NonNullDecl Ref<EntityStore> ref, @NonNullDecl Store<EntityStore> store, String nodeId) {
+        SkillComponent component  = store.getComponent(ref, SkillComponent.getComponentType());
         if (component == null) return false;
+        return unlockNode(component, nodeId);
+    }
 
+    public boolean unlockNode(SkillComponent component, String nodeId) {
         // 1. Check if valid node
         SkillNode node = nodeManager.getNode(nodeId);
         if (node == null) return false;

@@ -21,6 +21,7 @@ public class SkillNode {
     private List<String> connectedNodes;
     private Map<String, Double> stats;
     private String permission;
+    private String description;
 
     /**
      * No-args constructor for JSON deserialization frameworks (like Gson/Jackson)
@@ -83,6 +84,10 @@ public class SkillNode {
         return Optional.ofNullable(permission);
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     // Setters (useful for Builders or deserialization)
 
     public void setId(String id) {
@@ -119,6 +124,10 @@ public class SkillNode {
 
     public void setPermission(String permission) {
         this.permission = permission;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     // Utility methods

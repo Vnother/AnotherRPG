@@ -20,9 +20,7 @@ import de.another.rpg.core.skilltree.NodeManager;
 import de.another.rpg.core.skilltree.SkillTreeManager;
 import de.another.rpg.data.JsonPlayerStorage;
 import de.another.rpg.data.PlayerStorage;
-import de.another.rpg.hytale.BlockBreakEventSystem;
-import de.another.rpg.hytale.CombatEventSystem;
-import de.another.rpg.hytale.PlayerJoinSystem;
+import de.another.rpg.hytale.*;
 import de.another.rpg.modules.combat.*;
 import de.another.rpg.modules.professions.LifestyleSkill;
 import de.another.rpg.modules.professions.mining.DoubleDropEffect;
@@ -84,6 +82,10 @@ public class AnotherRPG extends JavaPlugin {
         this.getEntityStoreRegistry().registerSystem(new BlockBreakEventSystem());
         this.getEntityStoreRegistry().registerSystem(new PlayerJoinSystem());
         this.getEntityStoreRegistry().registerSystem(new CombatEventSystem());
+        this.getEntityStoreRegistry().registerSystem(new PreUseBlockEventSystem());
+        this.getEntityStoreRegistry().registerSystem(new PostUseBlockEventSystem());
+        this.getEntityStoreRegistry().registerSystem(new InteractivelyPickupItemEventSystem());
+        this.getEntityStoreRegistry().registerSystem(new DropItemEventSystem());
 
         System.out.println("AnotherRPG Plugin Enabled!");
     }
