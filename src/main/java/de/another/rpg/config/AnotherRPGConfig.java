@@ -82,20 +82,20 @@ public class AnotherRPGConfig extends BlockingDiskFile {
         config.setXpMultiplier(1.0);
 
         // Mining
-        config.registerBlockReward("Stone", "mining", 5.0);
-        config.registerBlockReward("Ore_Copper", "mining", 15.0);
-        config.registerBlockReward("Ore_Iron", "mining", 10.0);
-        config.registerBlockReward("Ore_Thorium", "mining", 25.0);
-        config.registerBlockReward("Ore_Cobalt", "mining", 50.0);
-        config.registerBlockReward("Ore_Mithril", "mining", 50.0);
-        config.registerBlockReward("Ore_Onyxium", "mining", 50.0);
-        config.registerBlockReward("Ore_Adamantite", "mining", 50.0);
+        config.registerBlockReward("Stone", "prosperity", 5.0);
+        config.registerBlockReward("Ore_Copper", "prosperity", 15.0);
+        config.registerBlockReward("Ore_Iron", "prosperity", 10.0);
+        config.registerBlockReward("Ore_Thorium", "prosperity", 25.0);
+        config.registerBlockReward("Ore_Cobalt", "prosperity", 50.0);
+        config.registerBlockReward("Ore_Mithril", "prosperity", 50.0);
+        config.registerBlockReward("Ore_Onyxium", "prosperity", 50.0);
+        config.registerBlockReward("Ore_Adamantite", "prosperity", 50.0);
 
         // Woodcutting
-        config.registerBlockReward("Trunk", "woodcutting", 10.0);
+        config.registerBlockReward("Trunk", "prosperity", 10.0);
 
         // Farming *Plant_Crop_Wheat_Block_State_Definitions_StageFinal
-        config.registerBlockReward("Plant_Crop", "farming", 8.0);
+        config.registerBlockReward("Plant_Crop", "prosperity", 8.0);
 
         write(bufferedWriter);
     }

@@ -43,7 +43,9 @@ public class PreUseBlockEventSystem extends EntityEventSystem<EntityStore, UseBl
             return;
         }
 
-        @SuppressWarnings("removal") UUID playerId = player.getUuid();
+        PlayerRef playerRefComponent = store.getComponent(entityStoreRef, PlayerRef.getComponentType());
+        assert playerRefComponent != null;
+        UUID playerId = playerRefComponent.getUuid();
 
         // 1. Get Skill Component (Stats)
         SkillComponent skillData = store.getComponent(entityStoreRef, SkillComponent.getComponentType());

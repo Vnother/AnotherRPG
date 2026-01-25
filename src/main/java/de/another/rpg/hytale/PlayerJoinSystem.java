@@ -5,6 +5,7 @@ import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.RefSystem;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.player.AddPlayerToWorldEvent;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import de.another.rpg.AnotherRPG;
 import de.another.rpg.api.component.SkillComponent;
@@ -28,7 +29,9 @@ public class PlayerJoinSystem extends RefSystem<EntityStore> {
 
         if (player == null) return;
 
-        @SuppressWarnings("removal") UUID uuid = player.getUuid();
+        PlayerRef playerRefComponent = store.getComponent(playerRef, PlayerRef.getComponentType());
+        assert playerRefComponent != null;
+        UUID uuid = playerRefComponent.getUuid();
 
         // Load data from storage
         SkillComponent skillData = AnotherRPG.getInstance().getPlayerStorage().loadPlayer(uuid);

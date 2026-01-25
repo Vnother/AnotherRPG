@@ -13,7 +13,7 @@ import java.util.UUID;
 public class DoubleDropEffect implements BlockBreakEffect {
 
     @Override
-    public void onBreak(BreakBlockEvent event, Player player, SkillComponent skills, SkillManager skillManager) {
+    public void onBreak(BreakBlockEvent event, Player player, UUID playerId, SkillComponent skills, SkillManager skillManager) {
         double chance = skills.getStat("mining_double_drop_chance");
 
         if (chance > 0 && Math.random() < chance) {
@@ -22,7 +22,6 @@ public class DoubleDropEffect implements BlockBreakEffect {
 
              // Simulate "Double Drop" by giving double XP benefit or separate drop logic
              // In a real scenario, we would modify `event.getDrops()` if mutable, or spawn an entity item.
-             @SuppressWarnings("removal") UUID playerId = player.getUuid();
              skillManager.awardXpForBlock(playerId, event.getBlockType().getId());
         }
     }

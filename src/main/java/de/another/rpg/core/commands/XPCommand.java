@@ -26,7 +26,7 @@ public class XPCommand extends AbstractPlayerCommand {
         Player player = store.getComponent(ref, Player.getComponentType());
         if (player != null) {
             // Retrieve and display player's XP from SkillManager
-            @SuppressWarnings("removal") UUID playerId = player.getUuid();
+            UUID playerId = playerRef.getUuid();
             SkillManager skillManager = AnotherRPG.getInstance().getSkillManager();
             var registry = AnotherRPG.getInstance().getSkillRegistry();
 

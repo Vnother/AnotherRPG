@@ -9,6 +9,7 @@ import com.hypixel.hytale.component.system.EntityEventSystem;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.ecs.BreakBlockEvent;
+import com.hypixel.hytale.server.core.modules.entity.damage.DamageSystems;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import de.another.rpg.AnotherRPG;
@@ -43,7 +44,9 @@ public class BlockBreakEventSystem extends EntityEventSystem<EntityStore, BreakB
             return;
         }
 
-        @SuppressWarnings("removal") UUID playerId = player.getUuid();
+        PlayerRef playerRefComponent = store.getComponent(entityStoreRef, PlayerRef.getComponentType());
+        assert playerRefComponent != null;
+        UUID playerId = playerRefComponent.getUuid();
 
         // 1. Get Skill Component (Stats)
         SkillComponent skillData = store.getComponent(entityStoreRef, SkillComponent.getComponentType());
@@ -51,7 +54,7 @@ public class BlockBreakEventSystem extends EntityEventSystem<EntityStore, BreakB
         // 2. Delegate to Registered Effects (Logic in separate classes now)
         if (skillData != null) {
              for (BlockBreakEffect effect : AnotherRPG.getInstance().getEffectManager().getBlockBreakEffects()) {
-                 effect.onBreak(breakBlockEvent, player, skillData, skillManager);
+                 effect.onBreak(breakBlockEvent, player, playerId, skillData, skillManager);
              }
         }
 

@@ -1,20 +1,20 @@
-package de.another.rpg.modules.professions;
+package de.another.rpg.modules.magic;
 
 import de.another.rpg.api.skill.Skill;
 
-public class LifestyleSkill implements Skill {
+public class MagicSkill implements Skill {
     @Override
     public String getId() {
-        return "lifestyle";
+        return "magic";
     }
 
     @Override
     public String getDisplayName() {
-        return "Lifestyle";
+        return "Magic";
     }
 
     @Override
     public String displayItemName() {
-        return "Tool_Pickaxe_Iron";
+        return "Weapon_Sword_Runic";
     }
 }

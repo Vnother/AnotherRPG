@@ -1,7 +1,10 @@
 package de.another.rpg.core.commands;
 
+import au.ellie.hyui.builders.InterfaceBuilder;
+import de.another.rpg.AnotherRPG;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractPlayerCommand;
 import com.hypixel.hytale.server.core.entity.entities.Player;
@@ -20,9 +23,9 @@ public class RPGCommand extends AbstractPlayerCommand {
     protected void execute(@NonNullDecl CommandContext commandContext, @NonNullDecl Store<EntityStore> store, @NonNullDecl Ref<EntityStore> ref, @NonNullDecl PlayerRef playerRef, @NonNullDecl World world) {
         Player player = store.getComponent(ref, Player.getComponentType());
         if (player != null) {
-            //openDashboard(playerRef, store, ref);
         }
     }
+
 
 
 }

@@ -22,7 +22,8 @@ import de.another.rpg.data.JsonPlayerStorage;
 import de.another.rpg.data.PlayerStorage;
 import de.another.rpg.hytale.*;
 import de.another.rpg.modules.combat.*;
-import de.another.rpg.modules.professions.LifestyleSkill;
+import de.another.rpg.modules.magic.MagicSkill;
+import de.another.rpg.modules.professions.*;
 import de.another.rpg.modules.professions.mining.DoubleDropEffect;
 import de.another.rpg.modules.professions.mining.ShatterStrikeEffect;
 
@@ -83,7 +84,8 @@ public class AnotherRPG extends JavaPlugin {
         this.getEntityStoreRegistry().registerSystem(new PlayerJoinSystem());
         this.getEntityStoreRegistry().registerSystem(new CombatEventSystem());
         this.getEntityStoreRegistry().registerSystem(new PreUseBlockEventSystem());
-        this.getEntityStoreRegistry().registerSystem(new PostUseBlockEventSystem());
+        //this.getEntityStoreRegistry().registerSystem(new PostUseBlockEventSystem());
+        this.getEntityStoreRegistry().registerSystem(new DamageBlockEvent());
         this.getEntityStoreRegistry().registerSystem(new InteractivelyPickupItemEventSystem());
         this.getEntityStoreRegistry().registerSystem(new DropItemEventSystem());
 
@@ -101,8 +103,9 @@ public class AnotherRPG extends JavaPlugin {
         this.nodeManager = new NodeManager();
 
         // 3. Register Modules
-        skillRegistry.register(new LifestyleSkill());
+        skillRegistry.register(new MagicSkill());
         skillRegistry.register(new CombatSkill());
+        skillRegistry.register(new ProsperitySkill());
 
         // 4. Initialize Node Manager
         File skillTreeFolder = new File("AnotherRPG/skilltrees");
