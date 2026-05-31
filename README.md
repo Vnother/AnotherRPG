@@ -8,28 +8,28 @@ An advanced RPG skill and progression plugin for Hytale servers. **AnotherRPG** 
 
 ---
 
-## 🚀 Key Features
+## Key Features
 
-*   **🏆 OSRS-Style Leveling Strategy**
+*   **OSRS-Style Leveling Strategy**
     *   Implements a classic exponential leveling curve with a configurable maximum level (default: `99`).
     *   Customizable experience multipliers for global or event-specific tuning.
-*   **🔮 Rich Skill Modules**
+*   **Rich Skill Modules**
     *   **Combat**: Power up your damage and defensive abilities in combat.
     *   **Magic**: Control magical forces and spells.
     *   **Prosperity**: Encompasses various gathering professions (Mining, Woodcutting, Farming) with dynamic rewards.
-*   **🌿 Node-Based Skill Trees**
+*   **Node-Based Skill Trees**
     *   Define tree structures and perk nodes using JSON configs loaded dynamically from `AnotherRPG/skilltrees/`.
-*   **⚡ High-Frequency Game Integration**
+*   **High-Frequency Game Integration**
     *   Fast event handling systems for block breaking, custom combat/damage display reflection caching, item dropping, and player connections.
     *   **Custom Perks**: Implemented effects like *Double Drop* and *Shatter Strike* to reward gathers.
-*   **💾 Flexible Storage**
+*   **Flexible Storage**
     *   Local JSON-based flat file player data storage (`player_data/`) for lightweight, robust persistence.
-*   **⚙️ Declarative Configurations**
+*   **Declarative Configurations**
     *   Configurable via `AnotherRPG/AnotherRPGConfig.json` with support for custom block XP rewards.
 
 ---
 
-## 🛠️ Commands
+##Commands
 
 | Command | Description | Default Permission |
 | :--- | :--- | :--- |
@@ -38,7 +38,7 @@ An advanced RPG skill and progression plugin for Hytale servers. **AnotherRPG** 
 
 ---
 
-## ⚙️ Configuration
+##Configuration
 
 A configuration file is automatically generated at `AnotherRPG/AnotherRPGConfig.json` when the plugin first boots. You can customize the base multiplier and specific XP rewards for individual blocks:
 
@@ -75,7 +75,7 @@ A configuration file is automatically generated at `AnotherRPG/AnotherRPGConfig.
 
 ---
 
-## 📦 Building & Development
+## Building & Development
 
 Ensure you have Java 17+ and the required Hytale server dependencies inside `libs/Server/HytaleServer.jar`.
 
